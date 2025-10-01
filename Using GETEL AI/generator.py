@@ -18,4 +18,19 @@ for table, pk in tables:
 for fk, ref in foreign_keys:
     relational_data.add_foreign_key(foreign_key=fk, referencing=ref)
 
+# importing multitable architecture:
+from gretel_trainer.relational import MultiTable
 
+# creating a new multitable for synthetic data:
+multitable = MultiTable(
+    relational_data,
+    project_display_name="Clinical Trials",
+    gretel_model="amplify"
+)
+multitable.train()
+
+# initialization/results:
+multitable.generate(record_size_ratio=1)
+synthetic_patients = multitable.synthetic_output_tables['patients']
+synthetic_lab_results = multitable.synthetic_output_tables['lab_results']
+synthetic_treatments = multitable.synthetic_output_tables['treatments']
